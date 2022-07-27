@@ -1,30 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class VirtualKeyboard : MonoBehaviour {
+public class VirtualKeyboard : MonoBehaviour
+{
 
     public MyInputField InputField;
 
     public void KeyPress(string c)
     {
+        InputField.OnSelect(null);
         InputField.text += c;
-        InputField.ActivateInputField();
+        InputField.caretPosition++;
+        InputField.OnValueChanged();
     }
 
     public void KeyLeft()
     {
-
+        InputField.OnSelect(null);
+        InputField.caretPosition--;
+        InputField.OnValueChanged();
     }
 
     public void KeyRight()
     {
-
+        InputField.OnSelect(null);
+        InputField.caretPosition++;
+        InputField.OnValueChanged();
     }
 
-    public void KeyDelete()
-    {
+    public void KeyDelete() => InputField.Delete();
 
-    }
 }

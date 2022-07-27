@@ -1343,7 +1343,7 @@ public class InputFieldOriginal
         SendOnValueChanged();
     }
 
-    private void SendOnValueChangedAndUpdateLabel()
+    protected void SendOnValueChangedAndUpdateLabel()
     {
         SendOnValueChanged();
         UpdateLabel();
