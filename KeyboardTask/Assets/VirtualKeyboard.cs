@@ -7,7 +7,7 @@ public class VirtualKeyboard : MonoBehaviour
 
     public void KeyPress(string c)
     {
-        InputField.OnSelect(null);
+        InputField.FocusObject();
         InputField.text += c;
         InputField.caretPosition++;
         InputField.OnValueChanged();
@@ -15,14 +15,14 @@ public class VirtualKeyboard : MonoBehaviour
 
     public void KeyLeft()
     {
-        InputField.OnSelect(null);
+        InputField.FocusObject();
         InputField.caretPosition--;
         InputField.OnValueChanged();
     }
 
     public void KeyRight()
     {
-        InputField.OnSelect(null);
+        InputField.FocusObject();
         InputField.caretPosition++;
         InputField.OnValueChanged();
     }

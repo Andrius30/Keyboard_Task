@@ -6,7 +6,7 @@ public class MyInputField : InputFieldOriginal
 
     public void Delete()
     {
-        OnSelect();
+        FocusObject();
         OnValueChanged();
         caretPositionInternal = text.Length - 1;
         if (text.Length - 1 >= 0)
@@ -18,5 +18,5 @@ public class MyInputField : InputFieldOriginal
     }
 
     public void OnValueChanged() => SendOnValueChangedAndUpdateLabel();
-    public void OnSelect() => OnSelect(null);
+    public void FocusObject() => SelectAll();
 }

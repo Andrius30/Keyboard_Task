@@ -490,7 +490,7 @@ public class InputFieldOriginal
         m_BlinkCoroutine = null;
     }
 
-    void SetCaretVisible()
+    protected void SetCaretVisible()
     {
         if (!m_AllowInput)
             return;
