@@ -1,18 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class VirtualKeyboard : MonoBehaviour
 {
     public MyInputField InputField;
     public float timeToHold = 2f;
-
     public float updateRatio = .1f;
-    [SerializeField] float delayOnReleaseButton = .3f;
 
     [ReadOnly] public bool isHolding = false;
     [ReadOnly] public bool isSelected = false;
-    // bool isRoutineRunning = false;
 
     InputKeys inputKeys;
     MoveLeft moveLeft;

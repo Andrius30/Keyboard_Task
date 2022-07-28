@@ -2052,7 +2052,6 @@ MonoBehaviour:
   InputField: {fileID: 1709371264}
   timeToHold: 1
   updateRatio: 0.06
-  delayOnReleaseButton: 1
   isHolding: 0
   isSelected: 0
 --- !u!224 &1562917990
