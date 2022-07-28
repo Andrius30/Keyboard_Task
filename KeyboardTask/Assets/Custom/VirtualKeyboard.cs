@@ -12,9 +12,12 @@ public class VirtualKeyboard : MonoBehaviour
         {
             isSelected = true;
             InputField.FocusObject();
+            InputField.MoveTextEnd(true); // on selection move caret at the end of text
         }
+        InputField.OnValueChanged();
         InputField.DeleteSelectedText(); // no working
-        InputField.text += c;
+        string value = InputField.text.Insert(InputField.caretPosition, c);
+        InputField.text = value;
         InputField.IncreaseCaretPosition();
         InputField.OnValueChanged();
 
@@ -44,7 +47,7 @@ public class VirtualKeyboard : MonoBehaviour
         InputField.OnValueChanged();
     }
 
-    public void KeyDeselect()
+    public void KeyDeselect() // [TEST] because I didn't knew for which device this task is i decided to add this button just to test what's happening after deselection
     {
         isSelected = false;
         InputField.hasSelection = false;
