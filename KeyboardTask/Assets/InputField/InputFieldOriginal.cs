@@ -181,8 +181,8 @@ public class InputFieldOriginal
     private CanvasRenderer m_CachedInputRenderer;
     private bool m_PreventFontCallback = false;
     [NonSerialized] protected Mesh m_Mesh;
-    private bool m_AllowInput = false;
-    private bool m_ShouldActivateNextUpdate = false;
+    protected bool m_AllowInput = false;
+    protected bool m_ShouldActivateNextUpdate = false;
     private bool m_UpdateDrag = false;
     private bool m_DragPositionOutOfBounds = false;
     private const float kHScrollSpeed = 0.05f;
@@ -465,12 +465,11 @@ public class InputFieldOriginal
         base.OnDisable();
     }
 
-    IEnumerator CaretBlink()
+    protected virtual IEnumerator CaretBlink()
     {
         // Always ensure caret is initially visible since it can otherwise be confusing for a moment.
         m_CaretVisible = true;
         yield return null;
-
         while (isFocused && m_CaretBlinkRate > 0)
         {
             // the blink rate is expressed as a frequency
@@ -478,8 +477,10 @@ public class InputFieldOriginal
 
             // the caret should be ON if we are in the first half of the blink period
             bool blinkState = (Time.unscaledTime - m_BlinkStartTime) % blinkPeriod < blinkPeriod / 2;
+            Debug.Log($"blinkState {blinkState} - m_CaretVisible {m_CaretVisible}");
             if (m_CaretVisible != blinkState)
             {
+                Debug.Log($"BLINK");
                 m_CaretVisible = blinkState;
                 UpdateGeometry();
             }
@@ -490,11 +491,10 @@ public class InputFieldOriginal
         m_BlinkCoroutine = null;
     }
 
-    protected void SetCaretVisible()
+    protected virtual void SetCaretVisible()
     {
         if (!m_AllowInput)
             return;
-
         m_CaretVisible = true;
         m_BlinkStartTime = Time.unscaledTime;
         SetCaretActive();
@@ -502,7 +502,7 @@ public class InputFieldOriginal
 
     // SetCaretActive will not set the caret immediately visible - it will wait for the next time to blink.
     // However, it will handle things correctly if the blink speed changed from zero to non-zero or non-zero to zero.
-    void SetCaretActive()
+    protected virtual void SetCaretActive()
     {
         if (!m_AllowInput)
             return;
@@ -574,7 +574,7 @@ public class InputFieldOriginal
         }
     }
 
-    private bool InPlaceEditing()
+    protected bool InPlaceEditing()
     {
         return !TouchScreenKeyboard.isSupported;
     }
@@ -1275,7 +1275,7 @@ public class InputFieldOriginal
             caretSelectPositionInternal = caretPositionInternal = position;
     }
 
-    private void Delete()
+    protected void Delete()
     {
         if (caretPositionInternal == caretSelectPositionInternal)
             return;
@@ -1328,7 +1328,7 @@ public class InputFieldOriginal
     }
 
     // Insert the character and update the label.
-    private void Insert(char c)
+    protected void Insert(char c)
     {
         string replaceString = c.ToString();
         Delete();
@@ -1629,7 +1629,7 @@ public class InputFieldOriginal
     public virtual void GraphicUpdateComplete()
     { }
 
-    private void UpdateGeometry()
+    protected void UpdateGeometry()
     {
 #if UNITY_EDITOR
         if (!Application.isPlaying)
@@ -1664,7 +1664,7 @@ public class InputFieldOriginal
         m_CachedInputRenderer.SetMesh(mesh);
     }
 
-    private void AssignPositioningIfNeeded()
+    protected void AssignPositioningIfNeeded()
     {
         if (m_TextComponent != null && caretRectTrans != null &&
             (caretRectTrans.localPosition != m_TextComponent.rectTransform.localPosition ||
@@ -1989,7 +1989,7 @@ public class InputFieldOriginal
         m_ShouldActivateNextUpdate = true;
     }
 
-    private void ActivateInputFieldInternal()
+    protected void ActivateInputFieldInternal()
     {
         if (EventSystem.current.currentSelectedGameObject != gameObject)
             EventSystem.current.SetSelectedGameObject(gameObject);
