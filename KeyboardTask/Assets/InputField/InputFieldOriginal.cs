@@ -477,10 +477,8 @@ public class InputFieldOriginal
 
             // the caret should be ON if we are in the first half of the blink period
             bool blinkState = (Time.unscaledTime - m_BlinkStartTime) % blinkPeriod < blinkPeriod / 2;
-            Debug.Log($"blinkState {blinkState} - m_CaretVisible {m_CaretVisible}");
             if (m_CaretVisible != blinkState)
             {
-                Debug.Log($"BLINK");
                 m_CaretVisible = blinkState;
                 UpdateGeometry();
             }
@@ -1141,7 +1139,7 @@ public class InputFieldOriginal
         return spaceLoc;
     }
 
-    private void MoveLeft(bool shift, bool ctrl)
+    protected void MoveLeft(bool shift, bool ctrl)
     {
         if (hasSelection && !shift)
         {
@@ -1156,6 +1154,7 @@ public class InputFieldOriginal
             position = FindtPrevWordBegin();
         else
             position = caretSelectPositionInternal - 1;
+
 
         if (shift)
             caretSelectPositionInternal = position;
