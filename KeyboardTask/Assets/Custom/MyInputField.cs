@@ -1,11 +1,24 @@
 
 // The challenge is to create a new class that will implement the InputField.
 // The new extended class (MyInputField) should make the InputField work with the UI buttons in the same way as manual input does.
+using UnityEngine;
+using UnityEngine.EventSystems;
+
 public class MyInputField : InputFieldOriginal
 {
+    public bool hasSelection = false;
+
+    int startIndex;
+    int endIndex;
 
     public void DeleteSymbol()
     {
+        if (hasSelection)
+        {
+            DeleteSelectedText();
+            OnValueChanged();
+            return;
+        }
         OnValueChanged();
         caretPosition = caretPositionInternal - 1;
         ShowCaret();
@@ -15,18 +28,8 @@ public class MyInputField : InputFieldOriginal
             OnValueChanged();
         }
     }
-
-    // TODO: Focus should remain on the input field when the user interface buttons are pressed. 
-    // TODO: Caret must remain in last position
-
     public void OnValueChanged() => SendOnValueChangedAndUpdateLabel();
     public void FocusObject() => SelectAll();
-    public void DeleteSelectedText()
-    {
-        // Delete();
-        // TODO: Get select text and remove count
-        //m_Text = text.Remove(caretPosition);
-    }
     public void DecreaseCaretPosition()
     {
         ShowCaret();
@@ -44,9 +47,31 @@ public class MyInputField : InputFieldOriginal
     /// </summary>
     public void ShowCaret()
     {
-        // 
         m_AllowInput = true;
         m_CaretVisible = true;
     }
-
+    /// <summary>
+    /// Removes selected text
+    /// </summary>
+    public void DeleteSelectedText()
+    {
+        if (!hasSelection) return;
+        caretPositionInternal = startIndex;
+        caretSelectPositionInternal = endIndex;
+        GetSelectedString();
+        Delete();
+        hasSelection = false;
+    }
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        hasSelection = false;
+        base.OnBeginDrag(eventData);
+        startIndex = caretPosition;
+    }
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        endIndex = caretPosition;
+        hasSelection = true;
+    }
 }

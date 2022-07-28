@@ -1068,7 +1068,7 @@ public class InputFieldOriginal
         eventData.Use();
     }
 
-    private string GetSelectedString()
+    protected string GetSelectedString()
     {
         if (!hasSelection)
             return "";

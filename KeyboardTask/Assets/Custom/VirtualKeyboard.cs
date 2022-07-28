@@ -17,6 +17,7 @@ public class VirtualKeyboard : MonoBehaviour
         InputField.text += c;
         InputField.IncreaseCaretPosition();
         InputField.OnValueChanged();
+
     }
 
     public void KeyLeft()
@@ -46,6 +47,7 @@ public class VirtualKeyboard : MonoBehaviour
     public void KeyDeselect()
     {
         isSelected = false;
+        InputField.hasSelection = false;
         InputField.OnDeselect(null);
     }
 
