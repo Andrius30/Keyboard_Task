@@ -15,6 +15,7 @@ public class InputKeys
     {
         this.keyboard = keyboard;
         holdTimer = new Timer(0, OnHoldTimeOut, false, true);
+        wait = new WaitForSeconds(keyboard.updateRatio);
     }
 
     public void OnUpdate()
@@ -22,11 +23,11 @@ public class InputKeys
         if (holdTimer.IsDone()) return;
         holdTimer.StartTimer();
     }
-    public void WriteText(string c)
+    public void WriteText()
     {
         keyboard.InputField.OnValueChanged();
         keyboard.InputField.DeleteSelectedText(); // no working
-        string value = keyboard.InputField.text.Insert(keyboard.InputField.caretPosition, c);
+        string value = keyboard.InputField.text.Insert(keyboard.InputField.caretPosition, lastClickedKey);
         keyboard.InputField.text = value;
         keyboard.InputField.IncreaseCaretPosition();
         keyboard.InputField.OnValueChanged();
@@ -46,7 +47,7 @@ public class InputKeys
         isRoutineRunning = true;
         while (keyboard.isHolding)
         {
-            WriteText(lastClickedKey);
+            WriteText();
             yield return wait;
         }
         isRoutineRunning = false;
