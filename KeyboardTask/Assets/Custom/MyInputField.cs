@@ -3,14 +3,20 @@
 // The new extended class (MyInputField) should make the InputField work with the UI buttons in the same way as manual input does.
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class MyInputField : InputFieldOriginal
+public class MyInputField : InputFieldOriginal, IPointerUpHandler
 {
     public bool hasSelection = false;
-
+    [SerializeField] Button button;
     int startIndex;
     int endIndex;
 
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        base.OnPointerUp(eventData);
+        Debug.Log($"Button released");
+    }
     public void DeleteSymbol()
     {
         if (hasSelection)

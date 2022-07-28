@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VirtualKeyboard : MonoBehaviour
 {
     public MyInputField InputField;
-
     bool isSelected = false;
 
     public void KeyPress(string c)
@@ -29,6 +29,7 @@ public class VirtualKeyboard : MonoBehaviour
         {
             isSelected = true;
             InputField.FocusObject();
+            InputField.MoveTextEnd(true); // on selection move caret at the end of text
         }
         InputField.OnValueChanged();
         InputField.DecreaseCaretPosition();
@@ -41,6 +42,7 @@ public class VirtualKeyboard : MonoBehaviour
         {
             isSelected = true;
             InputField.FocusObject();
+            InputField.MoveTextEnd(true); // on selection move caret at the end of text
         }
         InputField.OnValueChanged();
         InputField.IncreaseCaretPosition();
